@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Area Explorer</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#534AB7">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Area Explorer">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+<link rel="apple-touch-startup-image" href="splash.png">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <svg class="mascot" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="26" fill="#AFA9EC" stroke="#3C3489" stroke-width="0.5"/>
+      <circle cx="20" cy="26" r="3.5" fill="#26215C"/>
+      <circle cx="36" cy="26" r="3.5" fill="#26215C"/>
+      <path d="M18 36 Q28 44 38 36" fill="none" stroke="#26215C" stroke-width="2" stroke-linecap="round"/>
+      <rect x="10" y="8" width="36" height="7" rx="2" fill="#EF9F27" stroke="#633806" stroke-width="0.5"/>
+      <rect x="14" y="11" width="4" height="2" fill="#633806"/>
+      <rect x="22" y="11" width="4" height="2" fill="#633806"/>
+      <rect x="30" y="11" width="4" height="2" fill="#633806"/>
+      <rect x="38" y="11" width="4" height="2" fill="#633806"/>
+    </svg>
+    <div>
+      <p class="h-title">Area explorer</p>
+      <p class="h-sub">Unlimited practice</p>
+    </div>
+    <div class="level-badge" id="level-badge">Level: easy</div>
+  </div>
+
+  <div class="criteria">
+    <div class="criteria-title">Success criteria</div>
+    I can count square units. I can measure width and length. I can use A = W &times; L. I can label my answer with units&sup2;.
+  </div>
+
+  <div class="level-row">
+    <button class="level-btn active" id="lv-easy" type="button">Easy &middot; up to 5&times;5</button>
+    <button class="level-btn" id="lv-medium" type="button">Medium &middot; up to 8&times;8</button>
+    <button class="level-btn" id="lv-hard" type="button">Hard &middot; up to 12&times;10</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tab-count" type="button">Count the squares</button>
+    <button class="tab" id="tab-formula" type="button">Use A = W &times; L</button>
+  </div>
+
+  <div class="panel">
+    <div class="question-header">
+      <span class="question-num" id="q-num">Question 1</span>
+      <button class="new-q-btn" id="btn-new-q" type="button">New question</button>
+    </div>
+
+    <div class="stage">
+      <svg id="shape-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <div class="mode-panel active" id="panel-count">
+      <div class="count-display">
+        <span class="count-label">Squares you have marked</span>
+        <span class="count-value" id="count-num">0</span>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" id="btn-check-count" type="button">Check my count</button>
+        <button class="btn" id="btn-clear-marks" type="button">Clear marks</button>
+        <button class="btn" id="btn-next-count" type="button">Next question</button>
+      </div>
+      <div class="feedback" id="fb-count"></div>
+    </div>
+
+    <div class="mode-panel" id="panel-formula">
+      <div class="formula-row">
+        <span class="formula-label">A =</span>
+        <input type="number" id="in-w" min="1" max="20" placeholder="W" inputmode="numeric" pattern="[0-9]*">
+        <span class="formula-label">&times;</span>
+        <input type="number" id="in-l" min="1" max="20" placeholder="L" inputmode="numeric" pattern="[0-9]*">
+        <span class="formula-label">=</span>
+        <input type="number" id="in-a" min="1" max="500" placeholder="Area" inputmode="numeric" pattern="[0-9]*">
+        <span class="formula-label">units&sup2;</span>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" id="btn-check-formula" type="button">Check my answer</button>
+        <button class="btn" id="btn-clear-formula" type="button">Clear</button>
+        <button class="btn" id="btn-next-formula" type="button">Next question</button>
+      </div>
+      <div class="feedback" id="fb-formula"></div>
+    </div>
+  </div>
+
+  <div class="score-bar">
+    <div class="score-card">
+      <div class="score-label">Correct</div>
+      <div class="score-num" id="score-right">0</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Total tries</div>
+      <div class="score-num" id="score-tries">0</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Streak</div>
+      <div class="score-num"><span id="score-streak">0</span><span class="streak-fire" id="fire">&#9733;</span></div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Question</div>
+      <div class="score-num" id="score-q">1</div>
+    </div>
+  </div>
+
+  <div class="install-note" id="install-note">
+    <strong>Install on iPad:</strong> Tap the Share button in Safari, then "Add to Home Screen". Opens full-screen like a native app and works offline.
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
